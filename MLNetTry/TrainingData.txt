@@ -1,0 +1,26 @@
+Label;Text
+1;Hallo
+1;Hallo du
+1;Hi
+1;Hi du
+1;Heey
+1;Grüß Gott
+1;Servus
+1;Grüß di
+2;Tschüss
+2;Ciao
+2;bb
+2;auf wiedersehen
+2;Ade
+0;Nichts
+0;bla
+0;blub
+0;Test123
+0;Längere sätze sind doof
+0;Das ist doch Kaffee
+0;Und das Spam
+0;Ein Engel fliegt weit
+0;Oh guck mal
+0;Attention please
+0;Waaas das gibts nicht
+0;Huch 
