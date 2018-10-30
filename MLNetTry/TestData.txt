@@ -1,26 +1,20 @@
 Label;Text
-1;Heey süßer
-1;Hi
-0;Längere sätze sind doof
-2;Ciao
-1;Grüß di
-1;Hallo du
-1;Grüß Gott
-2;auf wiedersehen
-2;Tschüss
-2;Ade
-1;Servus
-0;Das ist doch Kaffee
-0;Nichts
-2;bb
-0;Test123
-0;blub
-1;Hi du
-0;Und das Spam
-1;Hallo
-0;Ein Engel fliegt weit
-0;bla
-0;Oh guck mal
+1;Heey duuuu
+1;Hi Matthias
 0;Attention please
-0;Waaas das gibts nicht
-0;Huch 
+2;Ciao bella
+1;Grüß di gott
+1;Hallo du depp
+2;auf wiedersehen du schnöde Welt
+2;Tschüss Peter
+1;Servus zusammen
+0;Updated characteristics table to most samples
+0;Hahaha
+2;bb zusamme
+0;bulshit bingo
+0;blub bla
+1;Hi du da
+0;Und werden Sie Teil des erfolgreichen Netzwerks
+1;Hallo Welt
+0;Ein Engel fliegt weit
+0;Version unserer Programmierschnittstelle
