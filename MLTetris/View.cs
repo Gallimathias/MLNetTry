@@ -54,7 +54,7 @@ namespace MLTetris
 
             InitializeComponent();
 
-            game.OnGameOver += Game_OnGameOver;
+            game.OnGameOver += GameOnGameOver;
 
             timer = new Timer()
             {
@@ -70,7 +70,7 @@ namespace MLTetris
             timer.Start();
         }
 
-        private void Game_OnGameOver(object sender, EventArgs e)
+        private void GameOnGameOver(object sender, EventArgs e)
         {
             MessageBox.Show("Game Over");
             game.Start();

@@ -76,12 +76,12 @@ namespace MLTetris
                 Interval = 33
             };
 
-            timer.Elapsed += Timer_Elapsed;
+            timer.Elapsed += TimerElapsed;
 
             timer.Start();
         }
 
-        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+        private void TimerElapsed(object sender, ElapsedEventArgs e)
         {
             frames++;
             if (frames % 4 == 0)
@@ -163,7 +163,7 @@ namespace MLTetris
 
         public void OnDraw(Graphics graphics)
         {
-            AllFigures.ToList().ForEach(f =>
+            AllFigures.ForEach(f =>
             {
                 if (!(f is Border))
                     f.Draw(graphics, CellWidth, CellHeight);
