@@ -22,7 +22,7 @@ namespace MLTetris.ML
         }
 
         internal void GameOver() => throw new NotImplementedException();
-        internal void SendScore(int score) => throw new NotImplementedException();
+        internal void SetScore(int score) => throw new NotImplementedException();
         internal void SetPlayingObject(List<BaseFigure> figures, BaseFigure currentFigure) => throw new NotImplementedException();
     }
 }

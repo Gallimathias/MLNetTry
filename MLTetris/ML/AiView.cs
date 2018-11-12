@@ -35,7 +35,7 @@ namespace MLTetris.ML
             };
             game.PropertyChanged += (s, e) =>
             {
-                thea.SendScore(Score);
+                thea.SetScore(Score);
             };
 
 
