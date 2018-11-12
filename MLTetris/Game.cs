@@ -114,7 +114,8 @@ namespace MLTetris
             if (CurrentFigure != null)
                 CurrentFigure.IsActive = false;
 
-            CurrentFigure = (BaseFigure)Activator.CreateInstance(BlockTypes[random.Next(0, BlockTypes.Count)]);
+            //CurrentFigure = (BaseFigure)Activator.CreateInstance(BlockTypes[random.Next(0, BlockTypes.Count)]);
+            CurrentFigure = new Square();
 
             if (Collision(CurrentFigure))
             {

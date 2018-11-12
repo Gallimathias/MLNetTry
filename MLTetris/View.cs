@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MLTetris.ML;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -23,6 +24,7 @@ namespace MLTetris
 
         private Timer timer;
         private Game game;
+        private readonly Observer observer;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public event EventHandler OnGameOver;
@@ -42,6 +44,8 @@ namespace MLTetris
         }
         public View()
         {
+            observer = new Observer();
+
             game = new Game(10, 20)
             {
                 CellHeight = CellHeight,
@@ -61,13 +65,30 @@ namespace MLTetris
                 Interval = 16
             };
 
-            PreviewKeyDown += (s, e) => e.IsInputKey = true;
-            KeyDown += (s, e) => game.MoveBrick(e, true);
-            KeyUp += (s, e) => game.MoveBrick(e, false);
+            PreviewKeyDown +=  (s, e) => e.IsInputKey = true;
+            KeyDown += ViewKeyDown;
+            KeyUp += ViewKeyUp;
 
             timer.Tick += (s, e) => Invalidate();
 
             timer.Start();
+        }
+
+        internal void SaveModel()
+        {
+            observer.Write(@".\data_" + DateTime.Now.ToString("ddMMYY_hhmm") + ".dat");
+        }
+
+        private void ViewKeyUp(object sender, KeyEventArgs e)
+        {
+            observer.AddKeyEvent(e.KeyData, false, game.CurrentFigure);
+            game.MoveBrick(e, false);
+        }
+
+        private void ViewKeyDown(object sender, KeyEventArgs e)
+        {
+            observer.AddKeyEvent(e.KeyData, true, game.CurrentFigure);
+            game.MoveBrick(e, true);
         }
 
         private void GameOnGameOver(object sender, EventArgs e)
@@ -106,6 +127,6 @@ namespace MLTetris
 
             base.OnPaint(e);
         }
-
+        
     }
 }

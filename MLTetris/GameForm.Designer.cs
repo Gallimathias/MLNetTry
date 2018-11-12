@@ -1,6 +1,6 @@
 ﻿namespace MLTetris
 {
-    partial class MainForm
+    partial class GameForm
     {
         /// <summary>
         /// Erforderliche Designervariable.
@@ -31,6 +31,8 @@
             this.View = new MLTetris.View();
             this.ScoreLabel = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.saveButton = new System.Windows.Forms.Button();
+            this.exitButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // View
@@ -59,11 +61,31 @@
             this.label1.TabIndex = 2;
             this.label1.Text = "Score:";
             // 
+            // saveButton
+            // 
+            this.saveButton.Location = new System.Drawing.Point(95, 2);
+            this.saveButton.Name = "saveButton";
+            this.saveButton.Size = new System.Drawing.Size(75, 23);
+            this.saveButton.TabIndex = 3;
+            this.saveButton.Text = "Save";
+            this.saveButton.UseVisualStyleBackColor = true;
+            // 
+            // exitButton
+            // 
+            this.exitButton.Location = new System.Drawing.Point(177, 2);
+            this.exitButton.Name = "exitButton";
+            this.exitButton.Size = new System.Drawing.Size(75, 23);
+            this.exitButton.TabIndex = 4;
+            this.exitButton.Text = "Exit";
+            this.exitButton.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(362, 553);
+            this.Controls.Add(this.exitButton);
+            this.Controls.Add(this.saveButton);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.ScoreLabel);
             this.Controls.Add(this.View);
@@ -81,6 +103,8 @@
         private View View;
         private System.Windows.Forms.Label ScoreLabel;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button saveButton;
+        private System.Windows.Forms.Button exitButton;
     }
 }
 

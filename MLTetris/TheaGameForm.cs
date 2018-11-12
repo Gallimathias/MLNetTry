@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MLTetris.ML;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,12 +11,15 @@ using System.Windows.Forms;
 
 namespace MLTetris
 {
-    public partial class MainForm : Form
+    public partial class TheaGameForm : Form
     {
-        public MainForm()
+        private AiView aiView;
+
+        public TheaGameForm(Thea thea)
         {
             InitializeComponent();
-            ScoreLabel.DataBindings.Add(new Binding("Text", View, "Score"));
+            aiView = new AiView(thea);
+            aiView.Start();
         }
     }
 }
