@@ -5,7 +5,9 @@ VisualStudioVersion = 15.0.28010.2048
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MLNetTry", "MLNetTry\MLNetTry.csproj", "{268B6C36-E528-478B-AE84-BF285C079184}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinorityRegression", "MinorityRegression\MinorityRegression.csproj", "{60E0EF72-552E-4A87-A967-438966C7BD15}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MinorityRegression", "MinorityRegression\MinorityRegression.csproj", "{60E0EF72-552E-4A87-A967-438966C7BD15}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MLTetris", "MLTetris\MLTetris.csproj", "{C8477ACE-FC1A-4F44-BC26-67F4A60AEBBD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{60E0EF72-552E-4A87-A967-438966C7BD15}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{60E0EF72-552E-4A87-A967-438966C7BD15}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{60E0EF72-552E-4A87-A967-438966C7BD15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8477ACE-FC1A-4F44-BC26-67F4A60AEBBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8477ACE-FC1A-4F44-BC26-67F4A60AEBBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8477ACE-FC1A-4F44-BC26-67F4A60AEBBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8477ACE-FC1A-4F44-BC26-67F4A60AEBBD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
