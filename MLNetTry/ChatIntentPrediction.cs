@@ -6,8 +6,7 @@ using System.Text;
 namespace MLNetTry
 {
     public class ChatIntentPrediction
-    {        
-        [ColumnName("Score")]
+    {
         public float[] Score { get; set; }
     }
 }
