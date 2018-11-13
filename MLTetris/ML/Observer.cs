@@ -37,12 +37,12 @@ namespace MLTetris.ML
         {
             var builder = new StringBuilder();
             builder.AppendLine(
-                nameof(ControlCommand.Key) + ',' +
-                nameof(ControlCommand.IsKeyUp) + ',' +
-                nameof(ControlCommand.FigureType) + ',' +
-                nameof(ControlCommand.MaxX) + ',' +
-                nameof(ControlCommand.MaxY) + ',' +
-                nameof(ControlCommand.MinX) + ',' +
+                nameof(ControlCommand.Key) + ';' +
+                nameof(ControlCommand.IsKeyUp) + ';' +
+                nameof(ControlCommand.FigureType) + ';' +
+                nameof(ControlCommand.MaxX) + ';' +
+                nameof(ControlCommand.MaxY) + ';' +
+                nameof(ControlCommand.MinX) + ';' +
                 nameof(ControlCommand.MinY)
                 );
 
@@ -54,7 +54,7 @@ namespace MLTetris.ML
             if (fileInfo.Exists)
                 fileInfo.Delete();
 
-            File.WriteAllText(fullName, builder.ToString());
+            File.WriteAllText(fullName, builder.ToString().Trim().TrimEnd(Environment.NewLine.ToCharArray()));
         }
 
     }

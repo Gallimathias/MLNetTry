@@ -33,13 +33,13 @@ namespace MLTetris.ML
             //Create DataReader for Training
             logger.Info("Create Environment");
 
-            var reader = new TextLoader(context, new TextLoader.Arguments()
+            var reader = context.Data.TextReader(new TextLoader.Arguments()
             {
-                Separator = ",",
+                Separator = ";",
                 HasHeader = true,
                 Column = new[]
                 {
-                        new TextLoader.Column("Key", DataKind.R4, 0),
+                        new TextLoader.Column("Key", DataKind.I4, 0),
                         new TextLoader.Column("IsKeyUp", DataKind.Bool, 1),
                         new TextLoader.Column("FigureType", DataKind.Text, 2),
                         new TextLoader.Column("MaxX", DataKind.R4, 3),
@@ -54,24 +54,24 @@ namespace MLTetris.ML
             //Create and Train model
             logger.Info("...succesfull");
             logger.Info("Create Model");
-            var pipeline = context.Transforms.CopyColumns("Key", "Label")
+            var pipeline =
+                context.Transforms.Categorical.MapValueToKey(inputColumn: "Key", outputColumn: "Label")
                 .Append(context.Transforms.Categorical.OneHotEncoding(inputColumn: "FigureType", outputColumn: "FigureTypeEncoded"))
                 .Append(context.Transforms.Normalize(inputName: "MaxX", mode: NormalizerMode.MeanVariance))
                 .Append(context.Transforms.Normalize(inputName: "MaxY", mode: NormalizerMode.MeanVariance))
                 .Append(context.Transforms.Normalize(inputName: "MinX", mode: NormalizerMode.MeanVariance))
                 .Append(context.Transforms.Normalize(inputName: "MinY", mode: NormalizerMode.MeanVariance))
-                .Append(context.Transforms.Concatenate("Features", "FigureTypeEncoded", "MaxX", "MaxY", "MinX", "MinY"));
-
-            var trainer = context.Regression.Trainers.StochasticDualCoordinateAscent(label: "Label", features: "Features");
-
-            pipeline.Append(trainer);
+                .Append(context.Transforms.Concatenate("Features", "FigureTypeEncoded", "MaxX", "MaxY", "MinX", "MinY"))
+                .Append(context.MulticlassClassification.Trainers.StochasticDualCoordinateAscent(
+                    label: "Label", features: "Features"))
+                .Append(context.Transforms.Conversion.MapKeyToValue(("PredictedLabel", "PredictedKey")));
 
             logger.Info("...succesfull");
             logger.Info("Train Model");
             var model = pipeline.Fit(trainingDataView);
 
             logger.Info("...succesfull");
-            
+
             using (var fileStream = File.OpenWrite(@".\thea.brain"))
                 context.Model.Save(model, fileStream);
         }
@@ -84,6 +84,7 @@ namespace MLTetris.ML
                 model = TransformerChain.LoadFrom(context, fileStream);
 
             function = model.MakePredictionFunction<GameData, ControlIntent>(context);
+
         }
 
         public ControlIntent Predict(GameData data)

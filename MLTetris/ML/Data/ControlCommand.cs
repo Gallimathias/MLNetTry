@@ -20,12 +20,12 @@ namespace MLTetris.ML.Data
         public override string ToString()
         {
             return
-                ((int)Key).ToString() + ',' +
-                (IsKeyUp ? "1" : "0") + ',' +
-                FigureType.Name.ToString() + ',' +
-                MaxX.ToString() + ',' +
-                MaxY.ToString() + ',' +
-                MinX.ToString() + ',' +
+                ((int)Key).ToString() + ';' +
+                (IsKeyUp ? "1" : "0") + ';' +
+                FigureType.Name.ToString() + ';' +
+                MaxX.ToString() + ';' +
+                MaxY.ToString() + ';' +
+                MinX.ToString() + ';' +
                 MinY.ToString();
         }
     }

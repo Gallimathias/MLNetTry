@@ -1,6 +1,8 @@
-﻿using System;
+﻿using MLTetris.Figures;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,10 +18,13 @@ namespace MLTetris.ML
         public int CellWidth => 362 / CellCountX; //362; 
         public int CellHeight => 520 / CellCountY; //520
 
-        public int Score => game.Score;
+        public int Score => Game.Score;
+
+        internal Game Game;
 
         private Timer timer;
-        private Game game;
+        private BaseFigure[] AllFigures;
+        private readonly object figureLock;
         private readonly Thea thea;
 
         public event EventHandler OnGameOver;
@@ -27,23 +32,24 @@ namespace MLTetris.ML
 
         public AiView(Thea thea)
         {
+            figureLock = new object();
             this.thea = thea;
-            game = new Game(10, 20)
+            Game = new Game(10, 20)
             {
                 CellHeight = CellHeight,
                 CellWidth = CellWidth
             };
-            game.PropertyChanged += (s, e) =>
+            Game.PropertyChanged += (s, e) =>
             {
                 thea.SetScore(Score);
             };
 
 
-            game.OnGameOver += GameOnGameOver;
+            Game.OnGameOver += GameOnGameOver;
 
             timer = new Timer()
             {
-                Interval = 16
+                Interval = 5000
             };
 
 
@@ -59,29 +65,54 @@ namespace MLTetris.ML
         {
             thea.Start();
             timer.Start();
-            game.Start();
+            Game.Start();
         }
 
         public void KeyDown(Keys key)
         {
-            game.MoveBrick(new KeyEventArgs(key), true);
+            Game.MoveBrick(new KeyEventArgs(key), true);
         }
 
         public void KeyUp(Keys key)
         {
-            game.MoveBrick(new KeyEventArgs(key), false);
+            Game.MoveBrick(new KeyEventArgs(key), false);
         }
 
         private void Calculate()
         {
-            var figures = game.AllFigures;
-            var currentFigure = game.CurrentFigure;
-            thea.SetPlayingObject(figures, currentFigure);
+            lock (figureLock)
+            {
+                AllFigures = new BaseFigure[Game.AllFigures.Count];
+                Game.AllFigures.CopyTo(AllFigures);
+            }
+
+            var currentFigure = Game.CurrentFigure;
+            thea.SetPlayingObject(Game.AllFigures, currentFigure);
         }
 
         private void GameOnGameOver(object sender, EventArgs e)
         {
             thea.GameOver();
+        }
+
+        public void OnDraw(Graphics graphics)
+        {
+            if (AllFigures == null || AllFigures.Length < 1)
+                return;
+
+
+            BaseFigure[] figures;
+            lock (figureLock)
+            {
+                figures = new BaseFigure[AllFigures.Length];
+                Array.Copy(AllFigures, 0, figures, 0, AllFigures.Length);
+            }
+
+            foreach (var figure in figures)
+            {
+                if (!(figure is Border))
+                    figure.Draw(graphics, CellWidth, CellHeight);
+            }
         }
 
 

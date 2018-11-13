@@ -10,7 +10,7 @@ namespace MLTetris.ML.Data
 {
     public class GameData
     {
-        public float Key { get; internal set; }
+        public int Key { get; internal set; }
         public bool IsKeyUp { get; internal set; }
         public string FigureType { get; internal set; }
         public float MaxX { get; internal set; }
@@ -20,7 +20,6 @@ namespace MLTetris.ML.Data
 
         public GameData(BaseFigure figure)
         {
-            Key = -1;
             FigureType = figure.GetType().Name;
             MaxX = figure.BrickPositions.Max(p => p.X);
             MaxY = figure.BrickPositions.Max(p => p.Y);

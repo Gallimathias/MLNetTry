@@ -42,7 +42,7 @@ namespace MLTetris
         private readonly Border bottom;
         private readonly Border left;
         private readonly Border right;
-        private Random random;
+        private readonly Random random;
         private int score;
         private ulong frames = 0;
 
@@ -114,8 +114,7 @@ namespace MLTetris
             if (CurrentFigure != null)
                 CurrentFigure.IsActive = false;
 
-            //CurrentFigure = (BaseFigure)Activator.CreateInstance(BlockTypes[random.Next(0, BlockTypes.Count)]);
-            CurrentFigure = new Square();
+            CurrentFigure = (BaseFigure)Activator.CreateInstance(BlockTypes[random.Next(0, BlockTypes.Count)]);
 
             if (Collision(CurrentFigure))
             {

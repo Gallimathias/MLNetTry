@@ -9,8 +9,8 @@ namespace MLTetris.ML.Data
 {
     public class ControlIntent
     {
-        public float Key;
-
-        public override string ToString() => Key.ToString();
+        public uint PredictedLabel { get; set; }
+        public int PredictedKey { get; set; }
+        public float[] Score { get; set; }
     }
 }

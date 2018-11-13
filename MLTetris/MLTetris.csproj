@@ -88,6 +88,12 @@
     <Compile Include="TheaGameForm.Designer.cs">
       <DependentUpon>TheaGameForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="TheaView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TheaView.Designer.cs">
+      <DependentUpon>TheaView.cs</DependentUpon>
+    </Compile>
     <Compile Include="View.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -108,6 +114,9 @@
     </Compile>
     <EmbeddedResource Include="StartUp.resx">
       <DependentUpon>StartUp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TheaView.resx">
+      <DependentUpon>TheaView.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

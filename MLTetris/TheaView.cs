@@ -1,18 +1,18 @@
-﻿using MLTetris.ML;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
+using System.Data;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Runtime.CompilerServices;
+using MLTetris.ML;
 
 namespace MLTetris
 {
-    public partial class View : UserControl, INotifyPropertyChanged
+    public partial class TheaView : UserControl, INotifyPropertyChanged
     {
         public int CellCountX => 10;
         public int CellCountY => 20;
@@ -20,11 +20,8 @@ namespace MLTetris
         public int CellWidth => Width / CellCountX;
         public int CellHeight => Height / CellCountY;
 
-        public int Score => game.Score;
-
+        private AiView internalView;
         private Timer timer;
-        private Game game;
-        private readonly Observer observer;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public event EventHandler OnGameOver;
@@ -42,67 +39,30 @@ namespace MLTetris
             }
             PropertyChanged?.Invoke(this, prop);
         }
-        public View()
+        public TheaView(AiView aiView)
         {
-            observer = new Observer();
-
-            game = new Game(10, 20)
-            {
-                CellHeight = CellHeight,
-                CellWidth = CellWidth
-            };
-            game.PropertyChanged += (s, e) =>
-            {
-                OnPropertyChanged(e.PropertyName);
-            };
-
-            InitializeComponent();
-
-            game.OnGameOver += GameOnGameOver;
+            internalView = aiView;
 
             timer = new Timer()
             {
                 Interval = 16
             };
-
-            PreviewKeyDown +=  (s, e) => e.IsInputKey = true;
-            KeyDown += ViewKeyDown;
-            KeyUp += ViewKeyUp;
-
+                      
             timer.Tick += (s, e) => Invalidate();
 
             timer.Start();
         }
-
-        internal void SaveModel()
-        {
-            observer.Write(@".\data_" + DateTime.Now.ToString("ddMMYY_hhmm") + ".dat");
-        }
-
-        private void ViewKeyUp(object sender, KeyEventArgs e)
-        {
-            observer.AddKeyEvent(e.KeyData, false, game.CurrentFigure);
-            game.MoveBrick(e, false);
-        }
-
-        private void ViewKeyDown(object sender, KeyEventArgs e)
-        {
-            observer.AddKeyEvent(e.KeyData, true, game.CurrentFigure);
-            game.MoveBrick(e, true);
-        }
+                
 
         private void GameOnGameOver(object sender, EventArgs e)
         {
             MessageBox.Show("Game Over");
-            game.Start();
         }
 
         protected override void OnResize(EventArgs e)
         {
             Invalidate();
 
-            game.CellHeight = CellHeight;
-            game.CellWidth = CellWidth;
 
             base.OnResize(e);
         }
@@ -123,9 +83,9 @@ namespace MLTetris
                 }
             }
 
-            game.OnDraw(e.Graphics);
+            internalView.OnDraw(e.Graphics);
 
             base.OnPaint(e);
-        }                
+        }
     }
 }
