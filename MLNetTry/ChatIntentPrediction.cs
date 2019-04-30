@@ -1,12 +1,12 @@
-﻿using Microsoft.ML.Runtime.Api;
-using System;
+﻿
+using Microsoft.ML.Data;
 using System.Collections.Generic;
-using System.Text;
 
 namespace MLNetTry
 {
     public class ChatIntentPrediction
     {
+        public uint PredictedLabel { get; set; }
         public float[] Score { get; set; }
     }
 }

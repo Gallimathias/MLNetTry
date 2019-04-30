@@ -6,7 +6,7 @@ namespace MLNetTry
 {
     public class ChatMessage
     {
-        public float Label { get; set; }
+        public uint Label { get; set; }
         public string Text { get; set; }
     }
 }

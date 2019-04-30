@@ -1,7 +1,5 @@
 ﻿using Microsoft.ML;
-using Microsoft.ML.Core.Data;
-using Microsoft.ML.Runtime.Data;
-using Microsoft.ML.Runtime.Learners;
+using Microsoft.ML.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,18 +15,17 @@ namespace MLNetTry
             //Create DataReader for Training
             Console.Write("Create Environment");
 
-            var reader = context.Data.TextReader(new TextLoader.Arguments()
-            {
-                Separator = ";",
-                HasHeader = true,
-                Column = new[]
+            var textLoader = context.Data.CreateTextLoader(
+                columns: new[]
                 {
-                        new TextLoader.Column("Label", DataKind.R4, 0),
-                        new TextLoader.Column("Text", DataKind.Text, 1)
-                    }
-            });
+                        new TextLoader.Column("Label", DataKind.UInt32, 0),
+                        new TextLoader.Column("Text", DataKind.String, 1)
+                },
+                separatorChar: ';',
+                hasHeader: true
+            );
 
-            var trainingDataView = reader.Read(new MultiFileSource(@".\TrainingData.txt"));
+            var trainingDataView = textLoader.Load(new MultiFileSource(@".\TrainingData.txt"));
 
             //Create and Train model
             Console.WriteLine("...succesfull");
@@ -36,9 +33,10 @@ namespace MLNetTry
             var pipeline = context
                                   .Transforms
                                   .Text
-                                  .FeaturizeText("Text", "Features")
-                                  .Append(context.MulticlassClassification.Trainers.StochasticDualCoordinateAscent(label: "Label", features: "Features"));
-
+                                  .FeaturizeText(outputColumnName: "Features", inputColumnName: "Text")
+                                  .Append(context.Transforms.Conversion.MapValueToKey(outputColumnName: "Label_Key", inputColumnName: "Label"))
+                                  .Append(context.MulticlassClassification.Trainers.SdcaMaximumEntropy(labelColumnName: "Label_Key", featureColumnName: "Features"))
+                                  .Append(context.Transforms.Conversion.MapKeyToValue("PredictedLabel"));
 
             Console.WriteLine("...succesfull");
             Console.Write("Train Model");
@@ -47,16 +45,16 @@ namespace MLNetTry
             //Evaluate model
             Console.WriteLine("...succesfull");
             Console.Write("Evaluate Model");
-            var testDataView = reader.Read(new MultiFileSource(@".\TestData.txt"));
+            var testDataView = textLoader.Load(new MultiFileSource(@".\TestData.txt"));
 
             var predictions = model.Transform(testDataView);
-            var metrics = context.MulticlassClassification.Evaluate(predictions, "Label", "Score");
+            var metrics = context.MulticlassClassification.Evaluate(predictions, labelColumnName: "Label_Key", scoreColumnName: "Score");
 
             //Test model
             Console.WriteLine("...succesfull");
             Console.WriteLine("Test Model");
-            var predictionFunct = model.MakePredictionFunction<ChatMessage, ChatIntentPrediction>(context);
-
+            var predictionFunct = context.Model.CreatePredictionEngine<ChatMessage, ChatIntentPrediction>(model);
+            
             var sample = new ChatMessage()
             {
                 Text = "Hallo Welt"
@@ -70,10 +68,12 @@ namespace MLNetTry
             {
                 resultList.Clear();
                 var resultPrediction = predictionFunct.Predict(sample);
-
-                for (int i = 0; i < resultPrediction.Score.Length; i++)
+                var values = new VBuffer<uint>();
+                predictionFunct.OutputSchema["Score"].Annotations.GetValue("TrainingLabelValues", ref values);
+                
+                foreach (var labelScore in values.Items())
                 {
-                    resultList.Add(new IntentResult(i, resultPrediction.Score[i]));
+                    resultList.Add(new IntentResult(labelScore.Value, resultPrediction.Score[labelScore.Key]));
                 }
 
                 foreach (var item in resultList.OrderByDescending(i => i.Score))

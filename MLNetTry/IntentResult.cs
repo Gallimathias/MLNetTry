@@ -9,7 +9,7 @@ namespace MLNetTry
         public Intent ResultIntent { get; }
         public float Score { get; }
 
-        public IntentResult(int type, float score)
+        public IntentResult(uint type, float score)
         {
             ResultIntent = (Intent)type;
             Score = score;
@@ -17,7 +17,7 @@ namespace MLNetTry
 
         public override string ToString() => $"{ResultIntent} [{Score}]";
 
-        public enum Intent
+        public enum Intent : uint
         {
             None,
             Greeting,
