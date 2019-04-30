@@ -15,12 +15,12 @@ namespace MLNetTry
             //Create DataReader for Training
             Console.Write("Create Environment");
 
-            var textLoader = context.Data.CreateTextLoader(
-                columns: new[]
-                {
-                        new TextLoader.Column("Label", DataKind.UInt32, 0),
-                        new TextLoader.Column("Text", DataKind.String, 1)
-                },
+            var textLoader = context.Data.CreateTextLoader<ChatMessage>(
+                //columns: new[]
+                //{
+                //        new TextLoader.Column("Label", DataKind.UInt32, 0),
+                //        new TextLoader.Column("Text", DataKind.String, 1)
+                //},
                 separatorChar: ';',
                 hasHeader: true
             );
